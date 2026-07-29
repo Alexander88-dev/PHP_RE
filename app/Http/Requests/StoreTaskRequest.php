@@ -9,9 +9,6 @@ use Illuminate\Validation\Rule;
 
 class StoreTaskRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return false;
@@ -46,38 +43,37 @@ class StoreTaskRequest extends FormRequest
             'deadline' =>
             [
                 'nullable',
-                 'date',
-                ],
+                'date',
+            ],
         ];
-        }
+    }
 
-        public function messages(): array 
-        {
-            return [
-                'title.required' => 'Введите название задачи',
-                'title.string' => 'Название должно быть строкой',
-                'title.min' => 'Название должно содержать синимум 3 символа',
-                'title.max' => 'Название не должно превышать 255 символов',
-            
-                'descriotion.string' => 'Описание должно быть строкой',
-                'descriotion.max' => 'Описание не должно превышать 5000 символов',
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Введите название задачи',
+            'title.string' => 'Название должно быть строкой',
+            'title.min' => 'Название должно содержать синимум 3 символа',
+            'title.max' => 'Название не должно превышать 255 символов',
 
-                'status.required' => 'Выберите ствтус задачи',
-                'status.in' => 'Выбран недопустимый статус',
+            'descriotion.string' => 'Описание должно быть строкой',
+            'descriotion.max' => 'Описание не должно превышать 5000 символов',
 
-                'deadline.date' => 'Укажите корректную дату',
-            ];
-        }
+            'status.required' => 'Выберите ствтус задачи',
+            'status.in' => 'Выбран недопустимый статус',
 
-        public function attributes() : array
-        {
-            return 
+            'deadline.date' => 'Укажите корректную дату',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return
             [
-        'title' => '',
-        'descriotion' => '',
-        'status' => '',
-        'deadline' => '',//////!!!!!
+                'title' => '',
+                'descriotion' => '',
+                'status' => '',
+                'deadline' => 'срок выполнения'
             ];
-        }
-        }
-
+    }
+}

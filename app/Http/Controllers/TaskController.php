@@ -12,9 +12,6 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request): View
     {
         $search = trim(
@@ -41,9 +38,7 @@ class TaskController extends Controller
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create(): View
     {
         return view('tasks.create', [
@@ -52,46 +47,39 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreTaskRequest $request): RedirectResponse
     {
         $task = Task::create(
             $request->validate()
         );
-    
+
         return redirect()
-        {
-            //!!!!!!!!!!
-        }
+            ->route('tasks.show', $task)
+            ->with(
+                'success',
+                'Задача успешно создана',
+            );
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Task $task): View
     {
-    return view('tasks.show', [
-        'task' => $task,
-    ]);
+        return view('tasks.show', [
+            'task' => $task,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Task $task): View
     {
-        return view('tasks.edit',
-        [
+        return view('task.edit', [
             'task' => $task,
-        //!!!!!!!!!!!!
-            ]);
+            'statuses' => Task::statuses(),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(RedirectResponse $request, Task $task): RedirectResponse
     {
         $task->update(
@@ -99,22 +87,24 @@ class TaskController extends Controller
         );
 
         return redirect()
-        
-        //!!!!!!
+            ->route('tasks.show', $task)
+            ->with(
+                'success',
+                'Задача успешно обнавлена'
+            );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Task $task): RedirectResponse
     {
         $task->delete();
 
         return redirect()
-        -> route('tasls.index')
-        ->with(
-            'success',
-            'Задача успешно удалена'
-        );
+            ->route('tasls.index')
+            ->with(
+                'success',
+                'Задача успешно удалена'
+            );
     }
+    
 }

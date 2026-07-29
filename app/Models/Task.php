@@ -5,7 +5,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Override;
 
 class Task extends Model
 {
@@ -37,12 +36,12 @@ class Task extends Model
         ];
     }
 
-    public function getSatusLabeleAttribute(): string
+    public function getSatusLabelAttribute(): string
     {
         return self::statuses()[$this->status()] ?? 'Неизвестный статус';
     }
 
-    public function getStatusBootsrapClassAttrubute(): string
+    public function getStatuBootsrapClassAttrubute(): string
     {
         return match ($this->statuses()) {
             self::STATUS_NEW => 'secondary',
