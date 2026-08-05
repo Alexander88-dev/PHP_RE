@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -20,17 +20,20 @@
             </button>
             <div id="mainNavigation" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"> <a href="{{route('home'}}" class="nav-link{{ request()->routeIs(home) ?? 'active' : ''}}">
+                    <li class="nav-item"> 
+                        <a href="{{ route('home') }}" class="nav-link{{ request()->routeIs('home') ? 'active' : ''}}">
                             Главная
                         </a>
                     </li>
 
-                    <li class="nav-item"><a href="{{route('tasks.index'}}" class="nav-link{{ request()->routeIs(home) ?? 'active' : ''}}">
+                    <li class="nav-item">
+                        <a href="{{route('tasks.index')}}" class="nav-link{{ request()->routeIs('tasks.index') ? 'active' : ''}}">
                             Задачи
                         </a>
                     </li>
 
-                    <li class="nav-item"><a href="{{route('tasks.create'}}" class="nav-link{{ request()->routeIs(home) ?? 'active' : ''}}">
+                    <li class="nav-item">
+                        <a href="{{route('tasks.create')}}" class="nav-link{{ request()->routeIs('tasks.create') ? 'active' : ''}}">
                             Добавить задачу
                         </a>
                     </li>
@@ -50,23 +53,24 @@
         </div>
         @endif
 
-        @if ($erros->any())
-        <div class="alert alert-danger">
-            <h2 class="h6">
-                Исправте ошибки формы
-            </h2>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <h2 class="h6">
+                    Исправте ошибки формы
+                </h2>
 
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error}} </li>
-                @endforeach
-            </ul>
-        </div>
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                     <li>{{ $error}} </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         @yield('content')
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
 
 </html>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,40 +9,37 @@ class Task extends Model
 {
     public const STATUS_NEW = 'new';
     public const STATUS_IN_PROGRESS = 'in_progress';
-    public const STATUS_COMPLETED = 'conmleted';
+    public const STATUS_COMPLETED = 'completed';
 
     protected $fillable = [
         'title',
-        'descriotion',
+        'description',
         'status',
-        'deadline',
+        'deadline'
     ];
 
     protected function casts(): array
     {
-        return
-            [
-                'deadline' => 'data'
-            ];
+        return [
+            'deadline' => 'date'
+        ];
     }
 
     public static function statuses(): array
     {
         return [
-            self::STATUS_NEW => 'Новая',
-            self::STATUS_IN_PROGRESS => 'В работе',
-            self::STATUS_COMPLETED => 'Завершить',
+            self::STATUS_NEW => 'новая',
+            self::STATUS_IN_PROGRESS => 'в работе',
+            self::STATUS_COMPLETED => 'завершен'
         ];
     }
 
-    public function getSatusLabelAttribute(): string
-    {
-        return self::statuses()[$this->status()] ?? 'Неизвестный статус';
+    public function getStatusLabelAttribute() : string{
+        return self::statuses()[$this->status] ?? 'Неизвестный статус';
     }
 
-    public function getStatuBootsrapClassAttrubute(): string
-    {
-        return match ($this->statuses()) {
+    public function getStatusBootstrapClassAttribute() : string {
+        return match ($this->status){
             self::STATUS_NEW => 'secondary',
             self::STATUS_IN_PROGRESS => 'warning',
             self::STATUS_COMPLETED => 'success',
@@ -57,10 +53,11 @@ class Task extends Model
     ): Builder {
         return $query->when(
             $search,
-            function (Builder $query, string $search): void {
-                $query->when(function (Builder $query) use ($search): void {
-                    $query->where('tirle', 'line', '%{$search}%')
-                        ->orWhere('description', 'like', '%{search}%');
+            function (Builder $query, string $search) : void {
+                $query->where(function(Builder $query) use ($search): void {
+                    $query 
+                        ->where('title', 'like', '%{$search}%')
+                        ->orWhere('description', 'like', '%{$search}%');
                 });
             }
         );
@@ -73,7 +70,7 @@ class Task extends Model
         return $query->when(
             $status,
             fn(Builder $query, string $status): Builder =>
-            $query->where('status', $status)
+                $query->where('status', $status)
         );
     }
 }

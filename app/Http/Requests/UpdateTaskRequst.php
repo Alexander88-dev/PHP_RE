@@ -7,8 +7,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateTaskRequst extends FormRequest
+class UpdateTaskRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
@@ -19,50 +22,49 @@ class UpdateTaskRequst extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
-            'title' =>
-            [
+             'title' => [
                 'required',
                 'string',
                 'min:3',
-                'max:255',
+                'max:255'
             ],
-            'descriotion' =>
-            [
-                'nullabe',
+
+            'description' => [
+                'nullable',
                 'string',
-                'max:255',
+                'max:5000'
             ],
-            'status' =>
-            [
+
+            'status' => [
                 'required',
                 Rule::in(array_keys(Task::statuses())),
             ],
-            'deadline' =>
-            [
+
+            'deadline' => [
                 'nullable',
-                'date',
+                'date'
             ],
         ];
     }
 
-    public function messages(): array
+    public function message(): array
     {
         return [
             'title.required' => 'Введите название задачи',
-            'title.min' => 'Название должно содержать синимум 3 символа',
+            'title.min' => 'Название должно содержать минимум 3 символа',
             'title.max' => 'Название не должно превышать 255 символов',
 
-            'descriotion.string' => 'Описание должно быть строкой',
-            'descriotion.max' => 'Описание не должно превышать 5000 символов',
+            'description.string' => 'Описание должено быть строкой',
+            'description.max' => 'Описание не должно превышать 5000 символов',
 
-            'status.required' => 'Выберите ствтус задачи',
-            'status.in' => 'Выбран недопустимый статус',
+            'status.required' => 'Выберете статус задачи',
+            'status.in' => 'Выбран недапустимый статус',
 
-            'deadline.date' => 'Укажите корректную дату',
+            'deadline.date' => 'Укажите корректную дату'
         ];
     }
+
 }
