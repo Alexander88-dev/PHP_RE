@@ -1,36 +1,58 @@
 <div class="mb-3">
-    <label for="title" class="form-label">Названние задачи</label>
-    
-    <input 
-    type="text"
-    name="title"
-    id="title"
-    class="form-control
-    @error('ti')">
-    <!--!!!-->    
+    <label for="title" class="form-label"> Название </label>
+    <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror " value="{{old('title', $task->title)}}"
+        maxlength="255" require>
 
     @error('title')
-    <div class="invalid-deedback">{{ $message }}</div>
+    <div class="invalid-feedback">
+        {{ $message }}
+    </div>
+    @enderror
+</div>
+<div class="mb-3">
+    <label for="title" class="form-label"> Описание </label>
+    <input type="description" name="description" id="description" class="form-control @error('description') is invalid @enderror " value="{{old('description', $task->description)}}">
+
+    @error('description')
+    <div class="invalid-feedback">
+        {{ $message }}
+    </div>
     @enderror
 </div>
 
-<div class="mb-3">
-    <label for="descriotion" class="form-label">Описание</label>
-    <textarea id="descriotion"
-    name="descriotion"
-    class="form-control @error('descriotion') is-invalid @"></textarea>  
-      <!--!!!-->    
-
-</div>
-
-
 <div class="row">
     <div class="col-md-6 mb-3">
-        <label for="status" id="status"
-        class="form-select @error('status') is-invalid @enderror" require></label>
-            <!--!!!-->    
+        <label for="status" class="form-label">Статус</label>
+        <select name="status" id="status" class="form-select @error('status') is invalid @enderror" require>
+            @foreach($statuses as $value => $label)
+                <option value="{{$value}}" @selected(old('status', $task->status ?: 'new') === $value)>
+                    {{$label}}
+                </option>
+            @endforeach
+        </select>
 
+        @error('status')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
-<!--!!!-->    
+   <div class="col-md-6 mb-3">
+        <label for="deadline" class="form-label">Срок выполнения</label>
+        <input 
+        type="date" 
+        id="deadline" 
+        name="deadline" 
+        value="{{ old(
+            'deadline',
+            $task->deadline?->format('Y-m-d')
+        ) }}"
+        class="form-control @error('deadline') is-invalid @enderror">
 
+        @error('status')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
